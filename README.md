@@ -11,3 +11,7 @@ password: Teste@1234<br /><br />
 login Mysql<br /> 
 user: root<br />
 password: 1234<br /><br />
+
+# example of dashboard
+
+![My Image](dashboard.jpeg)
