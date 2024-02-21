@@ -1,0 +1,44 @@
+version: "3.2"
+services:
+
+  mysql-server-db:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    volumes:
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./db-volume:/var/lib/mysql
+      
+    networks:
+      network:
+        ipv4_address: 172.16.238.10
+
+  metabase-app:
+    container_name: metabase
+    image: metabase/metabase
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      # declare your mount volume /host/dir:/container/dir
+      - ./metabase:/metabase.db
+    networks:
+      network:
+        ipv4_address: 172.16.238.20
+        
+volumes:
+  db-volume:
+    driver: local
+  metabase:
+    driver: local
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
